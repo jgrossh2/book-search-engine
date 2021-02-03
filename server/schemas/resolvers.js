@@ -33,7 +33,7 @@ const resolvers = {
                 throw new AuthenticationError('Incorrect username or password');
             }
 
-            const token = signToken(ser);
+            const token = signToken(user);
             return { token, user };
         }
     }

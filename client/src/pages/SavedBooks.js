@@ -8,13 +8,13 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
   const [removeBook, {error}] = useMutation(REMOVE_BOOK);
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
   const { loading, data } = useQuery(GET_ME);
-  const newUserData = data?.userData || [];
-  console.log(newUserData);
+  const userData = data?.userData || [];
+  console.log(userData);
 
 
   const loggedIn = Auth.loggedIn();
@@ -72,7 +72,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!newUserData) {
+  if (!userData) {
     return <h2>LOADING...</h2>;
   }
 

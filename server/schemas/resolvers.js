@@ -36,32 +36,35 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveBook: async (parent, args, context) => {
-            console.log("args", args)
-            try {
+        saveBook: async (parent, { bookData }, context) => {
+            console.log("args", bookData)
+            
             if (context.user) {
-                const saveBook = await Book.create({
-                    ...args,
-                    username: context.user.username
-                    
-                });
-                console.log("saveBook", saveBook)
 
-                await User.findByIdAndUpdate(
+                console.log("context", context.user)
+
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: book._id } },
+                    { $push: { savedBooks: bookData } },
                     { new: true }
                 );
-                console.log("savedBooks", savedBooks)
-                }
-            }catch(error) {
-                console.log(error)
-            } 
-                return savedBooks;
-            
-            throw new AuthenticationError("You need to be logged in to save your books.")
+                console.log(updatedUser)
+                return updatedUser;
         }
-    }
+            throw new AuthenticationError("You need to be logged in to save your books.")
+        },
+        removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+            const updatedUser = await User.findOneAndUpdate(
+                {_id: user._id},
+                {$pull: {savedBooks:  { bookId } } },
+                {new: true}
+            );
+            return updatedUser;         
+        }
+            throw new AuthenticationError("You need to be logged in to delete a book.")
+        }
+    },
 };
 
 module.exports = resolvers;

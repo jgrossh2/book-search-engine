@@ -4,15 +4,21 @@ const db = require('./config/connection');
 const { ApolloServer } = require('apollo-server-express')
 const { authMiddleware } = require('./utils/auth')
 const { typeDefs, resolvers } = require('./schemas');
+// import { onError } from 'apollo-link-error'
 
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// const errorLink = onError(({ graphQLErrors }) => {
+//   if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
+// })
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
+ 
 })
 
 server.applyMiddleware({ app });

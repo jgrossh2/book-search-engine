@@ -22,7 +22,7 @@ const resolvers = {
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
-
+            console.log("user", user)
             if (!user) {
                 throw new AuthenticationError('Incorrect username or password');
             }
@@ -34,21 +34,22 @@ const resolvers = {
             }
 
             const token = signToken(user);
+            console.log("token", token)
             return { token, user };
         },
         saveBook: async (parent, { bookData }, context) => {
-            console.log("args", bookData)
+            // console.log("args", bookData)
             
             if (context.user) {
 
-                console.log("context", context.user)
+                // console.log("context", context.user)
 
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: bookData } },
                     { new: true }
                 );
-                console.log(updatedUser)
+                console.log("updatedUser", updatedUser)
                 return updatedUser;
         }
             throw new AuthenticationError("You need to be logged in to save your books.")

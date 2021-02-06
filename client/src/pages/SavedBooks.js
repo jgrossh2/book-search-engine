@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { GET_ME } from "../utils/queries";
 import Auth from '../utils/auth';

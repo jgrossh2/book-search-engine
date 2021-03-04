@@ -14,7 +14,6 @@ module.exports = {
   authMiddleware: function ({ req }) {
     // allows token to be sent via  req.query or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
-    console.log("token2", token)
     // ["Bearer", "<tokenvalue>"]
     if (req.headers.authorization) {
       token = token.split(' ').pop().trim();
@@ -26,9 +25,7 @@ module.exports = {
 
     // verify token and get user data out of it
     try {
-      // console.log("here")
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      // console.log("data2", data)
       req.user = data;
     } catch {
       console.log('Invalid token');
